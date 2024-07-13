@@ -6,16 +6,11 @@ import (
 )
 
 type MovieRequest struct {
-	ID       string    `json:"id"`
-	Title    string    `json:"title"`
-	Gender   string    `json:"gender"`
-	Year     string    `json:"year"`
-	Director *Director `json:"director"`
-}
-
-type Director struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
+	ID       string `json:"id"`
+	Title    string `json:"title"`
+	Gender   string `json:"gender"`
+	Year     string `json:"year"`
+	Director string `json:"director"`
 }
 
 func JSONMovieRequest(body io.Reader) (*MovieRequest, error) {

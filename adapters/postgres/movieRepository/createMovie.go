@@ -17,15 +17,13 @@ func (repository repository) CreateMovie(req *dto.MovieRequest) (*domain.Movie, 
 		movie.Title,
 		movie.Gender,
 		movie.Year,
-		movie.Director.FirstName,
-		movie.Director.LastName,
+		movie.Director,
 	).Scan(
 		&movie.ID,
 		&movie.Title,
 		&movie.Gender,
 		&movie.Year,
-		&movie.Director.FirstName,
-		&movie.Director.LastName,
+		&movie.Director,
 	)
 
 	if err != nil {

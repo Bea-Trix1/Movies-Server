@@ -7,16 +7,11 @@ import (
 )
 
 type Movie struct {
-	ID       string    `json:"id"`
-	Title    string    `json:"title"`
-	Gender   string    `json:"gender"`
-	Year     string    `json:"year"`
-	Director *Director `json:"director"`
-}
-
-type Director struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
+	ID       string `json:"id"`
+	Title    string `json:"title"`
+	Gender   string `json:"gender"`
+	Year     string `json:"year"`
+	Director string `json:"director"`
 }
 
 // O service irá atender as requisições externas que batem na API.
@@ -40,7 +35,7 @@ type MovieUseCase interface {
 }
 
 // repository é nosso adapter do banco de dados.
-type MovieUseRepository interface {
+type MovieRepository interface {
 	CreateMovie(req *dto.MovieRequest) (*Movie, error)
 	DeleteMovie(req *dto.MovieRequest) (*Movie, error)
 	GetAllMovies(req *dto.MovieRequest) (*Movie, error)

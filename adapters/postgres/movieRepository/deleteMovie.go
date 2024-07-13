@@ -13,19 +13,14 @@ func (repository repository) DeleteMovie(req *dto.MovieRequest) (*domain.Movie, 
 
 	err := repository.db.QueryRow(
 		ctx,
-		"INSERT INTO movie (title, year, gender, year, fistName, lastName)  VALUES ($1, $2, $3, $4, $5, $6) returning *",
-		movie.Title,
-		movie.Gender,
-		movie.Year,
-		movie.Director.FirstName,
-		movie.Director.LastName,
+		"DELETE FROM movie WHERE id = ?",
+		movie.ID,
 	).Scan(
 		&movie.ID,
 		&movie.Title,
 		&movie.Gender,
 		&movie.Year,
-		&movie.Director.FirstName,
-		&movie.Director.LastName,
+		&movie.Director,
 	)
 
 	if err != nil {
