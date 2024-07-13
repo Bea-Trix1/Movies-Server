@@ -3,13 +3,13 @@ module github.com/Bea-Trix1/Movies-Server
 go 1.22.2
 
 require (
+	github.com/booscaaa/go-paginate v0.0.12
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/jackc/pgconn v1.14.3
 	github.com/spf13/viper v1.19.0
 )
 
 require (
-	github.com/booscaaa/go-paginate v0.0.12 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect

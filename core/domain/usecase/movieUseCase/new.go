@@ -6,7 +6,7 @@ type usecase struct {
 	repository domain.MovieRepository
 }
 
-// New returns contract implementation of ProductUseCase
+// Retorna o contrato da implementação do use case.
 func New(repository domain.MovieRepository) domain.MovieUseCase {
 	return &usecase{
 		repository: repository,

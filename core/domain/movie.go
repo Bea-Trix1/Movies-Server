@@ -16,11 +16,11 @@ type Movie struct {
 
 // O service irá atender as requisições externas que batem na API.
 type MovieService interface {
-	CreateMovie(resp http.ResponseWriter, req http.Request)
-	UpdateMovie(resp http.ResponseWriter, req http.Request)
-	DeleteMovie(resp http.ResponseWriter, req http.Request)
-	GetAllMovies(resp http.ResponseWriter, req http.Request)
-	GetMovieById(resp http.ResponseWriter, req http.Request)
+	CreateMovie(resp http.ResponseWriter, req *http.Request)
+	UpdateMovie(resp http.ResponseWriter, req *http.Request)
+	DeleteMovie(resp http.ResponseWriter, req *http.Request)
+	GetAllMovies(resp http.ResponseWriter, req *http.Request)
+	GetMovieById(resp http.ResponseWriter, req *http.Request)
 	Fetch(response http.ResponseWriter, request *http.Request)
 }
 

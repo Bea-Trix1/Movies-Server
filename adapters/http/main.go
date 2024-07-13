@@ -1,4 +1,4 @@
-package http
+package main
 
 import (
 	"context"
@@ -29,7 +29,12 @@ func main() {
 	movieService := di.ConfigProductDI(conn)
 
 	router := mux.NewRouter()
-	router.Handle("/product", http.HandlerFunc(movieService.Fetch)).Queries(
+	router.Handle("/createMovies", http.HandlerFunc(movieService.CreateMovie)).Methods("POST")
+	router.Handle("/deleteMoviesId", http.HandlerFunc(movieService.DeleteMovie)).Methods("DELETE")
+	router.Handle("/getAllMovies", http.HandlerFunc(movieService.GetAllMovies)).Methods("GET")
+	router.Handle("/getMoviesById", http.HandlerFunc(movieService.GetMovieById)).Methods("GET")
+	router.Handle("/updateMoviesById", http.HandlerFunc(movieService.UpdateMovie)).Methods("PUT")
+	router.Handle("/movie", http.HandlerFunc(movieService.Fetch)).Queries(
 		"page", "{page}",
 		"itemsPerPage", "{itemsPerPage}",
 		"descending", "{descending}",
