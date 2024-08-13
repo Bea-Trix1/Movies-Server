@@ -2,11 +2,10 @@ package movieusecase
 
 import (
 	"github.com/Bea-Trix1/Movies-Server/core/domain"
-	"github.com/Bea-Trix1/Movies-Server/core/dto"
 )
 
-func (usecase usecase) GetAllMovies(movieRequest *dto.MovieRequest) (*domain.Movie, error) {
-	movie, err := usecase.repository.GetAllMovies(movieRequest)
+func (usecase usecase) GetAllMovies() ([]domain.Movie, error) {
+	movie, err := usecase.repository.GetAllMovies()
 
 	if err != nil {
 		return nil, err
@@ -15,8 +14,8 @@ func (usecase usecase) GetAllMovies(movieRequest *dto.MovieRequest) (*domain.Mov
 	return movie, nil
 }
 
-func (usecase usecase) GetMovieById(movieRequest *dto.MovieRequest) (*domain.Movie, error) {
-	movie, err := usecase.repository.GetMovieById(movieRequest)
+func (usecase usecase) GetMovieById(id uint32) (*domain.Movie, error) {
+	movie, err := usecase.repository.GetMovieById(id)
 
 	if err != nil {
 		return nil, err

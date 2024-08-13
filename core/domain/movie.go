@@ -7,7 +7,7 @@ import (
 )
 
 type Movie struct {
-	ID       string `json:"id"`
+	ID       uint32 `json:"id"`
 	Title    string `json:"title"`
 	Gender   string `json:"gender"`
 	Year     string `json:"year"`
@@ -27,9 +27,9 @@ type MovieService interface {
 // usecase é a regra de negócio.
 type MovieUseCase interface {
 	CreateMovie(req *dto.MovieRequest) (*Movie, error)
-	DeleteMovie(req *dto.MovieRequest) (*Movie, error)
-	GetAllMovies(req *dto.MovieRequest) (*Movie, error)
-	GetMovieById(req *dto.MovieRequest) (*Movie, error)
+	DeleteMovie(id uint32) error
+	GetAllMovies() ([]Movie, error)
+	GetMovieById(id uint32) (*Movie, error)
 	UpdateMovie(req *dto.MovieRequest) (*Movie, error)
 	Fetch(paginationRequest *dto.PaginationRequestParms) (*Pagination[[]Movie], error)
 }
@@ -37,9 +37,9 @@ type MovieUseCase interface {
 // repository é nosso adapter do banco de dados.
 type MovieRepository interface {
 	CreateMovie(req *dto.MovieRequest) (*Movie, error)
-	DeleteMovie(req *dto.MovieRequest) (*Movie, error)
-	GetAllMovies(req *dto.MovieRequest) (*Movie, error)
-	GetMovieById(req *dto.MovieRequest) (*Movie, error)
+	DeleteMovie(id uint32) error
+	GetAllMovies() ([]Movie, error)
+	GetMovieById(id uint32) (*Movie, error)
 	UpdateMovie(req *dto.MovieRequest) (*Movie, error)
 	Fetch(paginationRequest *dto.PaginationRequestParms) (*Pagination[[]Movie], error)
 }

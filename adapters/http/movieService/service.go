@@ -3,6 +3,7 @@ package movieservice
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/Bea-Trix1/Movies-Server/core/dto"
 )
@@ -28,27 +29,35 @@ func (service service) CreateMovie(response http.ResponseWriter, request *http.R
 }
 
 func (service service) DeleteMovie(response http.ResponseWriter, request *http.Request) {
-	movieRequest, err := dto.JSONMovieRequest(request.Body)
 
-	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+	movieID := request.URL.Query().Get("id")
+	if movieID == "" {
+		http.Error(response, "Esperado ID do filme", http.StatusBadRequest)
 		return
 	}
 
-	movie, err := service.usecase.DeleteMovie(movieRequest)
-
+	id, err := strconv.ParseUint(movieID, 10, 32)
 	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	json.NewEncoder(response).Encode(movie)
+	err = service.usecase.DeleteMovie(uint32(id))
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte("Filme deletado com sucesso!"))
 }
 
 func (service service) GetAllMovies(response http.ResponseWriter, request *http.Request) {
-	movieRequest, err := dto.JSONMovieRequest(request.Body)
+	_, err := dto.JSONMovieRequest(request.Body)
 
 	if err != nil {
 		response.WriteHeader(500)
@@ -56,7 +65,7 @@ func (service service) GetAllMovies(response http.ResponseWriter, request *http.
 		return
 	}
 
-	movie, err := service.usecase.GetAllMovies(movieRequest)
+	movie, err := service.usecase.GetAllMovies()
 
 	if err != nil {
 		response.WriteHeader(500)
@@ -68,41 +77,44 @@ func (service service) GetAllMovies(response http.ResponseWriter, request *http.
 }
 
 func (service service) GetMovieById(response http.ResponseWriter, request *http.Request) {
-	movieRequest, err := dto.JSONMovieRequest(request.Body)
+	response.Header().Set("Content-Type", "application/json")
 
-	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+	movieID := request.URL.Query().Get("id")
+	if movieID == "" {
+		http.Error(response, "Esperado ID do filme", http.StatusBadRequest)
 		return
 	}
 
-	movie, err := service.usecase.GetMovieById(movieRequest)
-
+	id, err := strconv.ParseUint(movieID, 10, 32)
 	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+		http.Error(response, "ID do filme inválido", http.StatusBadRequest)
 		return
 	}
 
-	json.NewEncoder(response).Encode(movie)
+	movie, err := service.usecase.GetMovieById(uint32(id))
+	if err != nil {
+		http.Error(response, "Erro ao obter o filme: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := json.NewEncoder(response).Encode(movie); err != nil {
+		http.Error(response, "Erro ao codificar a resposta: "+err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func (service service) UpdateMovie(response http.ResponseWriter, request *http.Request) {
 	movieRequest, err := dto.JSONMovieRequest(request.Body)
-
 	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	movie, err := service.usecase.UpdateMovie(movieRequest)
-
+	updatedMovie, err := service.usecase.UpdateMovie(movieRequest)
 	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	json.NewEncoder(response).Encode(movie)
+	response.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(response).Encode(updatedMovie)
 }
