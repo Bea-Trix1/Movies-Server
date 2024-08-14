@@ -36,4 +36,5 @@ Voltado totalmente para fins de estudos de arquitetura e construção de API em 
 
 ## Desenho de arquitetura do projeto
 
-![alt text](MovieServer.jpg)
+```markdown
+![Desenho de Arquitetura do Projeto](imagens/MovieServer.jpg)
