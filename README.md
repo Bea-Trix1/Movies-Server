@@ -34,6 +34,8 @@ Voltado totalmente para fins de estudos de arquitetura e construção de API em 
     ├── migrations
 ├── di
 
+```
+
 ## Desenho de arquitetura do projeto
 
 ```markdown
